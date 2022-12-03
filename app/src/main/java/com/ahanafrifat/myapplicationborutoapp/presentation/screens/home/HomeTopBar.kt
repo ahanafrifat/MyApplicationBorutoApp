@@ -13,23 +13,23 @@ import com.ahanafrifat.myapplicationborutoapp.R
 
 @Composable
 fun HomeTopBar(onSearchClicked: () -> Unit) {
-
-    TopAppBar(title = {
-        Text(
-            text = "Explore",
-            color = MaterialTheme.colors.topAppBarContentColor
-        )
-    }, backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
+    TopAppBar(
+        title = {
+            Text(
+                text = "Explore",
+                color = MaterialTheme.colors.topAppBarContentColor
+            )
+        },
+        backgroundColor = MaterialTheme.colors.topAppBarBackgroundColor,
         actions = {
             IconButton(onClick = onSearchClicked) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = stringResource(id = R.string.search_icon)
+                    contentDescription = stringResource(R.string.search_icon)
                 )
             }
         }
     )
-
 }
 
 @Composable
