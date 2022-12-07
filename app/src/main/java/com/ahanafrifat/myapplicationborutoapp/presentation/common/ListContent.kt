@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,8 +27,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.ahanafrifat.myapplicationborutoapp.R
 import com.ahanafrifat.myapplicationborutoapp.domain.model.Hero
 import com.ahanafrifat.myapplicationborutoapp.navigation.Screen
@@ -38,6 +37,7 @@ import com.ahanafrifat.myapplicationborutoapp.presentation.components.ShimmerEff
 import com.ahanafrifat.myapplicationborutoapp.ui.theme.*
 import com.ahanafrifat.myapplicationborutoapp.util.Constants.BASE_URL
 
+@ExperimentalCoilApi
 @Composable
 fun ListContent(
     heroes: LazyPagingItems<Hero>,
@@ -51,9 +51,7 @@ fun ListContent(
     if (result) {
         LazyColumn(
             contentPadding = PaddingValues(all = SMALL_PADDING),
-            verticalArrangement = Arrangement.spacedBy(
-                SMALL_PADDING
-            )
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
             items(
                 items = heroes,
@@ -61,19 +59,18 @@ fun ListContent(
                     hero.id
                 }
             ) { hero ->
-
                 hero?.let {
                     HeroItem(hero = it, navController = navController)
                 }
-
             }
         }
     }
 }
 
 @Composable
-fun handlePagingResult(heroes: LazyPagingItems<Hero>): Boolean {
-
+fun handlePagingResult(
+    heroes: LazyPagingItems<Hero>
+): Boolean {
     heroes.apply {
         val error = when {
             loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
@@ -88,7 +85,11 @@ fun handlePagingResult(heroes: LazyPagingItems<Hero>): Boolean {
                 false
             }
             error != null -> {
-                EmptyScreen(error = error)
+                EmptyScreen(error = error, heroes = heroes)
+                false
+            }
+            heroes.itemCount < 1 -> {
+                EmptyScreen()
                 false
             }
             else -> true
@@ -116,8 +117,6 @@ fun HeroItem(
             },
         contentAlignment = Alignment.BottomStart
     ) {
-
-
         Surface(shape = RoundedCornerShape(size = LARGE_PADDING)) {
             Image(
                 modifier = Modifier.fillMaxSize(),
@@ -126,7 +125,6 @@ fun HeroItem(
                 contentScale = ContentScale.Crop
             )
         }
-
         Surface(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
@@ -137,7 +135,6 @@ fun HeroItem(
                 bottomEnd = LARGE_PADDING
             )
         ) {
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -151,38 +148,29 @@ fun HeroItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-
                 Text(
                     text = hero.about,
                     color = Color.White.copy(alpha = ContentAlpha.medium),
                     fontSize = MaterialTheme.typography.subtitle1.fontSize,
-                    fontWeight = FontWeight.Normal,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
-
                 Row(
                     modifier = Modifier.padding(top = SMALL_PADDING),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     RatingWidget(
                         modifier = Modifier.padding(end = SMALL_PADDING),
                         rating = hero.rating
                     )
-
                     Text(
                         text = "(${hero.rating})",
                         textAlign = TextAlign.Center,
                         color = Color.White.copy(alpha = ContentAlpha.medium)
                     )
-
                 }
             }
-
         }
-
-
     }
 }
 

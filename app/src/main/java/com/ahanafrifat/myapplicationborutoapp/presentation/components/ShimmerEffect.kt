@@ -18,7 +18,6 @@ import com.ahanafrifat.myapplicationborutoapp.ui.theme.*
 
 @Composable
 fun ShimmerEffect() {
-
     LazyColumn(
         contentPadding = PaddingValues(all = SMALL_PADDING),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
@@ -31,7 +30,6 @@ fun ShimmerEffect() {
 
 @Composable
 fun AnimatedShimmerItem() {
-
     val transition = rememberInfiniteTransition()
     val alphaAnim by transition.animateFloat(
         initialValue = 1f,
@@ -39,18 +37,15 @@ fun AnimatedShimmerItem() {
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = 500,
-                easing = FastOutSlowInEasing
-            ), repeatMode = RepeatMode.Reverse
-        )
-    )
-
-//    ShimmerItem(alpha = alphaAnim.value)
+                easing = FastOutLinearInEasing
+            ),
+            repeatMode = RepeatMode.Reverse
+        ))
     ShimmerItem(alpha = alphaAnim)
 }
 
 @Composable
 fun ShimmerItem(alpha: Float) {
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,60 +54,49 @@ fun ShimmerItem(alpha: Float) {
             Color.Black else ShimmerLightGray,
         shape = RoundedCornerShape(size = LARGE_PADDING)
     ) {
-
         Column(
-            modifier = Modifier.padding(all = MEDIUM_PADDING),
+            modifier = Modifier
+                .padding(all = MEDIUM_PADDING),
             verticalArrangement = Arrangement.Bottom
         ) {
-
             Surface(
                 modifier = Modifier
-                    .alpha(alpha)
+                    .alpha(alpha = alpha)
                     .fillMaxWidth(0.5f)
                     .height(NAME_PLACEHOLDER_HEIGHT),
                 color = if (isSystemInDarkTheme())
                     ShimmerDarkGray else ShimmerMediumGray,
                 shape = RoundedCornerShape(size = SMALL_PADDING)
             ) {}
-
             Spacer(modifier = Modifier.padding(all = SMALL_PADDING))
-
             repeat(3) {
                 Surface(
                     modifier = Modifier
-                        .alpha(alpha)
                         .fillMaxWidth()
+                        .alpha(alpha = alpha)
                         .height(ABOUT_PLACEHOLDER_HEIGHT),
                     color = if (isSystemInDarkTheme())
                         ShimmerDarkGray else ShimmerMediumGray,
                     shape = RoundedCornerShape(size = SMALL_PADDING)
                 ) {}
-
                 Spacer(modifier = Modifier.padding(all = EXTRA_SMALL_PADDING))
             }
-
             Row(modifier = Modifier.fillMaxWidth()) {
-
-                repeat(5) {
+                repeat(5){
                     Surface(
                         modifier = Modifier
-                            .alpha(alpha)
+                            .alpha(alpha = alpha)
                             .size(RATING_PLACEHOLDER_HEIGHT),
                         color = if (isSystemInDarkTheme())
                             ShimmerDarkGray else ShimmerMediumGray,
                         shape = RoundedCornerShape(size = SMALL_PADDING)
                     ) {}
-
-                    Spacer(modifier = Modifier.padding(all = EXTRA_SMALL_PADDING))
-
+                    Spacer(modifier = Modifier.padding(all = SMALL_PADDING))
                 }
-
             }
-
         }
     }
 }
-
 
 @Composable
 @Preview

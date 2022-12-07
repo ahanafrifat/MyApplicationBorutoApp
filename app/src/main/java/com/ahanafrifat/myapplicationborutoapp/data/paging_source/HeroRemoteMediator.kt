@@ -11,7 +11,6 @@ import com.ahanafrifat.myapplicationborutoapp.domain.model.Hero
 import com.ahanafrifat.myapplicationborutoapp.domain.model.HeroRemoteKeys
 import javax.inject.Inject
 
-
 @ExperimentalPagingApi
 class HeroRemoteMediator @Inject constructor(
     private val borutoApi: BorutoApi,

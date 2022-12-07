@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.ahanafrifat.myapplicationborutoapp.data.local.BorutoDatabase
 import com.ahanafrifat.myapplicationborutoapp.data.paging_source.HeroRemoteMediator
+import com.ahanafrifat.myapplicationborutoapp.data.paging_source.SearchHeroesSource
 import com.ahanafrifat.myapplicationborutoapp.data.remote.BorutoApi
 import com.ahanafrifat.myapplicationborutoapp.domain.model.Hero
 import com.ahanafrifat.myapplicationborutoapp.domain.repository.RemoteDataSource
@@ -13,7 +14,7 @@ import com.ahanafrifat.myapplicationborutoapp.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
 @ExperimentalPagingApi
-class RemoteDataSourceImpl (
+class RemoteDataSourceImpl(
     private val borutoApi: BorutoApi,
     private val borutoDatabase: BorutoDatabase
 ) : RemoteDataSource {
@@ -32,7 +33,12 @@ class RemoteDataSourceImpl (
         ).flow
     }
 
-    override fun searchHeroes(): Flow<PagingData<Hero>> {
-        TODO("Not yet implemented")
+    override fun searchHeroes(query: String): Flow<PagingData<Hero>> {
+        return Pager(
+            config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+            pagingSourceFactory = {
+                SearchHeroesSource(borutoApi = borutoApi, query = query)
+            }
+        ).flow
     }
 }
