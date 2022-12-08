@@ -1,6 +1,7 @@
 package com.ahanafrifat.myapplicationborutoapp.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -16,6 +17,7 @@ import com.ahanafrifat.myapplicationborutoapp.presentation.screens.welcome.Welco
 import com.ahanafrifat.myapplicationborutoapp.util.Constants.DETAILS_ARGUMENT_KEY
 import com.google.accompanist.pager.ExperimentalPagerApi
 
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
