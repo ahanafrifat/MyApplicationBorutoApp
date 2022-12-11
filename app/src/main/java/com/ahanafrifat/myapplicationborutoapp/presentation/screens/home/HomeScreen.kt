@@ -1,6 +1,7 @@
 package com.ahanafrifat.myapplicationborutoapp.presentation.screens.home
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +11,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
 import com.ahanafrifat.myapplicationborutoapp.navigation.Screen
 import com.ahanafrifat.myapplicationborutoapp.presentation.common.ListContent
+import com.ahanafrifat.myapplicationborutoapp.ui.theme.statusBarColor
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @ExperimentalCoilApi
 @Composable
@@ -18,6 +21,11 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val allHeroes = homeViewModel.getAllHeroes.collectAsLazyPagingItems()
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(
+        color =MaterialTheme.colors.statusBarColor
+    )
 
     Scaffold(
         topBar = {
